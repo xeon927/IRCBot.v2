@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 
 Module main
-    Public version As String = "2.0.1"
+    Public version As String = "2.0.2"
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
 

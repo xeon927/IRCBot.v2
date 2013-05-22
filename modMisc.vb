@@ -3,9 +3,6 @@
         If InStr(getMessage(message), String.Format("Goodnight, {0}", nickname)) Then
             mscSleep(getNickname(message), getChannel(message))
         End If
-        'Select Case getMessage(message)
-        '    Case String.Format("Goodnight, {0}", nickname) : mscSleep(getNickname(message), getChannel(message))
-        'End Select
     End Sub
     Sub mscSleep(nick As String, chan As String)
         If nick = owner Then

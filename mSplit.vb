@@ -41,7 +41,7 @@ Module mSplit
             If output = "channel" Then Return channel
             If output = "message" Then Return message
         Else
-            Return "---Operation Failed---"
+            Return "---Cannot Regex---"
             Exit Function
         End If
         Return "---Operation Failed---"

@@ -3,6 +3,7 @@ Module modFantasy
     Sub Check(message As String)
         If getMessage(message).Substring(0, 1) = "!" Then
             If Regex.IsMatch(getMessage(message), "\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
+            If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
         End If
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
@@ -26,5 +27,10 @@ Module modFantasy
             resultArray(i - 1) = numberGen(1, max)
         Next
         sendMessage(chan, String.Format("Rolling {0} dice with {1} sides... Results: [{2}]", rolls, max, String.Join(", ", resultArray)))
+    End Sub
+    Sub fantGetDose(nick As String, chan As String, message As String)
+        Dim min As Integer = Regex.Match(message, "!dose\ (?<min>\d+)\ (?<max>\d+)", RegexOptions.IgnoreCase).Result("${min}")
+        Dim max As Integer = Regex.Match(message, "!dose\ (?<min>\d+)\ (?<max>\d+)", RegexOptions.IgnoreCase).Result("${max}")
+        sendMessage(chan, String.Format("{0}: You should take {1}mg!", nick, numberGen(min, max).ToString()))
     End Sub
 End Module
