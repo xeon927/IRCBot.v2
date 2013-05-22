@@ -5,6 +5,7 @@
             If s.ToLower() = "/?" Then displayFlags()
             If s.ToLower() = "/quiet" Then QuietStart = True
             If s.ToLower() = "/gencfg" Then config.genNew()
+            If s.ToLower() = "/setup" Then setup.runSetup()
         Next
     End Sub
     Sub displayFlags()
