@@ -42,4 +42,8 @@
     Sub setNick(nick As String)
         sendData(String.Format("NICK {0}", nick))
     End Sub
+
+    Sub sendAction(chan As String, action As String)
+        sendMessage(chan, String.Format("{0}ACTION {1}{0}", Chr(&H1), action))
+    End Sub
 End Module
