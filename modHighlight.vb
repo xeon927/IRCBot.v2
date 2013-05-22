@@ -16,7 +16,9 @@ Module modHighlight
                 Case "changeowner" : hltChangeOwner(fromNick, fromChan, arg)
                 Case "joinchan" : hltJoinChan(fromNick, fromChan, arg)
                 Case "partchan" : hltPartChan(fromNick, fromChan, arg)
+                Case "help" : hltHelp(fromNick, fromChan, arg)
             End Select
+            Exit Sub
         End If
         'Without Arguments
         If Regex.IsMatch(getMessage(message), regexPattern, RegexOptions.IgnoreCase) Then
@@ -28,7 +30,9 @@ Module modHighlight
                 Case "ownerinfo" : hltGetOwner(fromNick, fromChan)
                 Case "version" : hltVersion(fromNick, fromChan)
                 Case "identify" : hltNickServ(fromNick, fromChan)
+                Case "help" : hltHelp(fromNick, fromChan)
             End Select
+            Exit Sub
         End If
     End Sub
     Sub hltGetOwner(nick As String, chan As String)
@@ -84,5 +88,12 @@ Module modHighlight
         Else
             sendMessage(chan, String.Format("{0}: {1}", nick, ownerfail))
         End If
+    End Sub
+
+    Sub hltHelp(nick As String, chan As String)
+        help.showHelp(nick, chan)
+    End Sub
+    Sub hltHelp(nick As String, chan As String, argument As String)
+        help.getHelp(nick, chan, argument)
     End Sub
 End Module

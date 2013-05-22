@@ -81,6 +81,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="config.vb" />
+    <Compile Include="help.vb" />
     <Compile Include="main.vb" />
     <Compile Include="IRCBot.v2\AssemblyInfo.vb" />
     <Compile Include="IRCBot.v2\Application.Designer.vb">
@@ -103,6 +105,7 @@
     <Compile Include="modMisc.vb" />
     <Compile Include="operations.vb" />
     <Compile Include="mSplit.vb" />
+    <Compile Include="startFlags.vb" />
     <Compile Include="strings.vb" />
   </ItemGroup>
   <ItemGroup>

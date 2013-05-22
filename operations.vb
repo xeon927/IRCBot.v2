@@ -46,4 +46,7 @@
     Sub sendAction(chan As String, action As String)
         sendMessage(chan, String.Format("{0}ACTION {1}{0}", Chr(&H1), action))
     End Sub
+    Sub sendPM(nick As String, message As String)
+        sendData(String.Format("PRIVMSG {0} :{1}", nick, message))
+    End Sub
 End Module

@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 
 Module main
-    Public version As String = "2.0.3"
+    Public version As String = "2.1.2"
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
 
@@ -14,7 +14,7 @@ Module main
     Dim ReadBuf As String = ""
 
     Public CanRegex As Boolean = True
-    Dim QuietStart As Boolean = False
+    Public QuietStart As Boolean = False
     Public nsUse As Boolean = False
 
     Public gen As New Random
@@ -27,19 +27,9 @@ Module main
 
     Public diceMaxRolls, diceMaxSides As Integer
     Sub Main()
-        'Temporary variable assignment
-        host = "irc.acorptech.com.au"
-        port = "6667"
-        channel = "#test"
-        nickname = "SteveV2"
-        username = "Steve"
-        realname = "Steve"
-        owner = "xeon927"
-        nsUse = False
-        nsPass = ""
-        ownerfail = "Sorry, only my owner can make me do that."
-
-        'getParams()
+        startFlags.Check()
+        config.Load()
+        If Not QuietStart Then getParams()
         servConnect()
         runLoop()
     End Sub

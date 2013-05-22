@@ -10,7 +10,8 @@ Module mSplit
         Return msgRegex("hostname", message)
     End Function
     Function getChannel(message As String)
-        Return msgRegex("channel", message)
+        Dim chan As String = msgRegex("channel", message)
+        If chan.Substring(0, 1) = "#" Then Return chan Else Return getNickname(message)
     End Function
     Function getMessage(message As String)
         Return msgRegex("message", message)
