@@ -5,6 +5,7 @@ Module modFantasy
             If Regex.IsMatch(getMessage(message), "\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
             If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
+            If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
         End If
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
@@ -57,5 +58,40 @@ Module modFantasy
             Case 19 : sendMessage(chan, String.Format("{0}: Outlook not so good.", nick))
             Case 20 : sendMessage(chan, String.Format("{0}: Very doubtful.", nick))
         End Select
+    End Sub
+    Sub fantVote(nick As String, chan As String, message As String)
+        If removeSpaces(message) = "!vote" Then
+            Exit Sub
+        End If
+        If InStr(message.ToLower(), "start") Then
+            Dim voteString As String = Regex.Match(message, "!vote\ start\ ""(?<voteString>.+)""", RegexOptions.IgnoreCase).Result("${voteString}")
+            voting.StartVote(nick, chan, voteString)
+        ElseIf InStr(message.ToLower(), "override") Then
+            If InStr(message.ToLower(), "stopvote") Then
+                voting.voteOverride(nick, chan, "stopvote", "")
+                Exit Sub
+            End If
+            Dim op As String = Regex.Match(message, "!vote\ override\ (?<op>\w+)\ (?<arg>\d+)", RegexOptions.IgnoreCase).Result("${op}")
+            Dim arg As String = Regex.Match(message, "!vote\ override\ (?<op>\w+)\ (?<arg>\d+)", RegexOptions.IgnoreCase).Result("${arg}")
+            voting.voteOverride(nick, chan, op, arg)
+            Exit Sub
+        ElseIf InStr(message.ToLower(), "stats") Then
+            voting.VoteStats(nick, chan)
+            Exit Sub
+        ElseIf InStr(message.ToLower(), "finish") Then
+            voting.EndVote(nick, chan)
+            Exit Sub
+        Else
+            Dim arg As String = Regex.Match(message, "!vote\ (?<arg>\w+)", RegexOptions.IgnoreCase).Result("${arg}")
+            Console.WriteLine(String.Format("---{0}---", arg))
+            Select Case arg.ToLower()
+                Case "yay" : voting.vote(nick, chan, "yes")
+                Case "yeah" : voting.vote(nick, chan, "yes")
+                Case "yes" : voting.vote(nick, chan, "yes")
+                Case "nay" : voting.vote(nick, chan, "no")
+                Case "nope" : voting.vote(nick, chan, "no")
+                Case "no" : voting.vote(nick, chan, "no")
+            End Select
+        End If
     End Sub
 End Module
