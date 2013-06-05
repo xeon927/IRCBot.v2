@@ -3,9 +3,12 @@
         Try
             checkPing(message)
             checkDisconnect(message)
-            modFantasy.Check(message)
-            modHighlight.Check(message)
-            modMisc.Check(message)
+            ignore.check(message)
+            If Not isIgnoring Then
+                modFantasy.Check(message)
+                modHighlight.Check(message)
+                modMisc.Check(message)
+            End If
         Catch ex As Exception
             Console.WriteLine(ex.ToString())
         End Try
