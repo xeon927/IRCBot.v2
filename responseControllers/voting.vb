@@ -18,7 +18,8 @@
     End Sub
     Sub EndVote(fromNick As String, fromChan As String)
         If VoteInProgress And fromNick = voteStarter Then
-            sendMessage(voteChan, String.Format("Finishing vote. Final scores - Yes: {0} | No: {1}", countYes, countNo))
+            sendMessage(voteChan, String.Format("Finishing vote. Question was ""{0}"", asked by {1}", currentVote, voteStarter))
+            sendMessage(voteChan, String.Format("Final scores - Yes: {0} | No: {1}", countYes, countNo))
             VoteInProgress = False
         ElseIf Not VoteInProgress Then
             sendMessage(fromChan, String.Format("{0}: There is no vote currently underway", fromNick))
