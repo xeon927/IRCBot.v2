@@ -28,6 +28,7 @@
     End Sub
     Sub VoteStats(fromNick As String, fromChan As String)
         If VoteInProgress = True Then
+            sendMessage(fromChan, String.Format("{0}: Current question: {1} asking ""{2}"" in {3}", fromNick, voteStarter, currentVote, voteChan))
             sendMessage(fromChan, String.Format("{0}: Current votes are as follows - Yes: {1} | No: {2}", fromNick, countYes, countNo))
         Else
             sendMessage(fromChan, String.Format("{0}: There is no vote currently underway", fromNick))
