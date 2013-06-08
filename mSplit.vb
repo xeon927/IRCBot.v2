@@ -29,6 +29,11 @@ Module mSplit
                     hostname = r.Match(input).Result("${hostname}")
                     channel = r.Match(input).Result("${channel}")
                     message = r.Match(input).Result("${message}")
+                    If output = "nickname" Then Return nickname
+                    If output = "username" Then Return username
+                    If output = "hostname" Then Return hostname
+                    If output = "channel" Then Return channel
+                    If output = "message" Then Return message
                 Catch ex As Exception
                     Console.WriteLine(ex.ToString())
                 End Try
@@ -36,11 +41,6 @@ Module mSplit
                 Return "---Operation Failed---"
                 Exit Function
             End If
-            If output = "nickname" Then Return nickname
-            If output = "username" Then Return username
-            If output = "hostname" Then Return hostname
-            If output = "channel" Then Return channel
-            If output = "message" Then Return message
         Else
             Return "---Cannot Regex---"
             Exit Function

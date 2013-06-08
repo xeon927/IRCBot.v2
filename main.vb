@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 
 Module main
-    Public version As String = "2.1.4"
+    Public version As String = "2.1.5"
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
 
@@ -93,7 +93,9 @@ Module main
                     charIn = ASCII.GetString(data)
                     If charIn = vbCr Then
                         stream.Read(data, 0, 1)
-                        Console.WriteLine("<<< " + out)
+                        If Not out.Substring(0, 4) = "PING" Then
+                            Console.WriteLine("<<< " + out)
+                        End If
                         strings.Check(out)
                         Exit Do
                     End If
@@ -101,7 +103,12 @@ Module main
                 Loop
                 If Not loggedIn Then operations.login()
             Catch ex As Exception
+#If DEBUG Then
                 Console.WriteLine(ex.ToString())
+#Else
+                Console.WriteLine("Something went wrong.")
+#End If
+
             End Try
         Loop
 
@@ -113,6 +120,8 @@ Module main
         data = New [Byte](65535) {}
         data = ASCII.GetBytes(message)
         stream.Write(data, 0, data.Length)
-        Console.Write(">>> " + message)
+        If Not message.Substring(0, 4) = "PONG" Then
+            Console.Write(">>> " + message)
+        End If
     End Sub
 End Module
