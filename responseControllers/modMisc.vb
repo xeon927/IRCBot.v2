@@ -16,12 +16,15 @@
     Sub mscHug(nick As String, chan As String, message As String)
         If nick = owner Then
             Select Case numberGen(1, 3)
+                Case 1 : sendAction(chan, String.Format("holds on to {0}, not letting go", nick))
+                Case 2 : sendAction(chan, String.Format("grips {0} tightly", nick))
+                Case 3 : sendAction(chan, String.Format("softly nuzzles {0}", nick))
+            End Select
+        Else
+            Select Case numberGen(1, 3)
                 Case 1 : sendAction(chan, String.Format("snuggles up to {0}", nick))
                 Case 2 : sendAction(chan, String.Format("cuddles {0}", nick))
                 Case 3 : sendAction(chan, String.Format("hugs {0} in return", nick))
-                Case Else
-                    sendAction(chan, String.Format("hugs {0}", nick))
-                    sendNotice(owner, "Something went wrong with mscHug... :(")
             End Select
         End If
     End Sub
