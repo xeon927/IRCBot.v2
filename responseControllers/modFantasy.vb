@@ -1,4 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
+Imports System.Diagnostics
+Imports System.IO
 Module modFantasy
     Sub Check(message As String)
         If getMessage(message).Substring(0, 1) = "!" Then
@@ -6,6 +8,7 @@ Module modFantasy
             If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
+            If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
         End If
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
@@ -93,5 +96,34 @@ Module modFantasy
                 Case "no" : voting.vote(nick, chan, "no")
             End Select
         End If
+    End Sub
+    Sub fantUptime(nick As String, chan As String)
+        Dim days, hours, minutes, seconds As String
+        If InStr(Environment.OSVersion.ToString(), "NT") Then
+            Dim systemUptime As New PerformanceCounter("System", "System Up Time")
+            systemUptime.NextValue()
+            Dim TS As TimeSpan = TimeSpan.FromSeconds(systemUptime.NextValue())
+
+            'Set all values before sending message
+            days = TS.Days
+            hours = TS.Hours
+            minutes = TS.Minutes
+            seconds = TS.Seconds
+        ElseIf InStr(Environment.OSVersion.ToString(), "Unix") Then
+            Dim input As String = File.ReadAllText("/proc/uptime").Trim(vbCr, vbLf)
+            Dim regexPattern As String = "(?<uptime>\-?\d+\.\d+)\ (?<idletime>\-?\d+\.\d+)"
+            Dim bootSecFromNow As Double = Regex.Match(input, regexPattern).Result("${uptime}")
+            Dim TS As TimeSpan = TimeSpan.FromSeconds(bootSecFromNow)
+
+            'Set all values before sending message
+            days = TS.Days
+            hours = TS.Hours
+            minutes = TS.Minutes
+            seconds = TS.Seconds
+        Else
+            sendMessage(chan, String.Format("{0}: Sorry. My host doesn't run a system that I know how to get uptime from", nick))
+            Exit Sub
+        End If
+        sendMessage(chan, String.Format("{0}: My host has been running for {1} days, {2}:{3}:{4}", nick, days, hours.PadLeft(2, "0"), minutes.PadLeft(2, "0"), seconds.PadLeft(2, "0")))
     End Sub
 End Module
