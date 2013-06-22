@@ -225,11 +225,13 @@ Module setup
         Console.WriteLine("Please choose an option:")
         Console.WriteLine("  1) Owner Failure Message")
         Console.WriteLine("  2) Permanent Quiet Startup")
+        Console.WriteLine("  3) Logging")
         Console.WriteLine()
         Console.WriteLine("  9) Back")
         Select Case Console.ReadLine()
             Case "1" : settings_Misc_ownerFail()
             Case "2" : settings_Misc_AlwaysQuiet()
+            Case "3" : settings_Misc_Logging()
             Case "9" : setupMain()
             Case Else : settings_Misc()
         End Select
@@ -260,6 +262,47 @@ Module setup
             Case Else : settings_Misc_AlwaysQuiet()
         End Select
         settings_Misc()
+    End Sub
+    Sub settings_Misc_Logging()
+        Console.Clear()
+        Console.WriteLine("Please choose an option:")
+        Console.WriteLine("  1) Enable/Disable Logging")
+        Console.WriteLine("  2) Set Logging Directory")
+        Console.WriteLine()
+        Console.WriteLine("  9) Back")
+        Select Case Console.ReadLine()
+            Case "1" : settings_Misc_Logging_Toggle()
+            Case "2" : settings_Misc_Logging_Path()
+            Case "9" : settings_Misc()
+            Case Else : settings_Misc_Logging()
+        End Select
+    End Sub
+    Sub settings_Misc_Logging_Toggle()
+        Console.Clear()
+        Console.WriteLine("Please choose an option:")
+        Console.WriteLine("  1) Enable Logging")
+        Console.WriteLine("  2) Disable Logging")
+        Console.WriteLine()
+        If main.loggingEnabled = False Then
+            Console.WriteLine("Logging is currently disabled")
+        ElseIf main.loggingEnabled = True Then
+            Console.WriteLine("Logging is currently enabled")
+        End If
+        Select Case Console.ReadLine()
+            Case "1" : main.loggingEnabled = True
+            Case "2" : main.loggingEnabled = False
+            Case Else : settings_Misc_Logging_Toggle()
+        End Select
+        settings_Misc_Logging()
+    End Sub
+    Sub settings_Misc_Logging_Path()
+        Console.Clear()
+        Console.WriteLine("Path to log file - This can be either relative (to current directory), or absolute. This path must point to a file, not a folder.")
+        Console.WriteLine()
+        Console.Write(String.Format("[{0}] ", main.logfilePath))
+        tempVal = Console.ReadLine()
+        If Not tempVal = "" Then main.logfilePath = tempVal
+        settings_Misc_Logging()
     End Sub
 
     'DiceRoll Settings
