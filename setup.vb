@@ -37,13 +37,15 @@ Module setup
         Console.WriteLine("Please choose an option:")
         Console.WriteLine("  1) Host")
         Console.WriteLine("  2) Port")
-        Console.WriteLine("  3) Channel(s)")
+        Console.WriteLine("  3) Password")
+        Console.WriteLine("  4) Channel(s)")
         Console.WriteLine()
         Console.WriteLine("  9) Back")
         Select Case Console.ReadLine()
             Case "1" : settings_Server_Host()
             Case "2" : settings_Server_Port()
-            Case "3" : settings_Server_Channel()
+            Case "3" : settings_Server_Password()
+            Case "4" : settings_Server_Channel()
             Case "9" : setupMain()
             Case Else : settings_Server()
         End Select
@@ -65,6 +67,47 @@ Module setup
         tempVal = Console.ReadLine()
         If Not tempVal = "" Then main.port = tempVal
         settings_Server()
+    End Sub
+    Sub settings_Server_Password()
+        Console.Clear()
+        Console.WriteLine("Please choose an option:")
+        Console.WriteLine("  1) Enable/Disable Password")
+        Console.WriteLine("  2) Set Password")
+        Console.WriteLine()
+        Console.WriteLine("  9) Back")
+        Select Case Console.ReadLine()
+            Case "1" : settings_Server_Password_Toggle()
+            Case "2" : settings_Server_Password_Set()
+            Case "9" : settings_Server()
+            Case Else : settings_Server_Password()
+        End Select
+    End Sub
+    Sub settings_Server_Password_Toggle()
+        Console.Clear()
+        Console.WriteLine("Please choose an option:")
+        Console.WriteLine("  1) Enable Server Password")
+        Console.WriteLine("  2) Disable Server Password")
+        Console.WriteLine()
+        If main.servPassUse = False Then
+            Console.WriteLine("Server Password is currently disabled")
+        ElseIf main.servPassUse = True Then
+            Console.WriteLine("Server Password is currently enabled")
+        End If
+        Select Case Console.ReadLine()
+            Case "1" : main.servPassUse = True
+            Case "2" : main.servPassUse = False
+            Case Else : settings_Server_Password_Toggle()
+        End Select
+        settings_Server_Password()
+    End Sub
+    Sub settings_Server_Password_Set()
+        Console.Clear()
+        Console.WriteLine("Server Password - The password to be sent to the server in order to connect (if enabled)")
+        Console.WriteLine()
+        Console.Write(String.Format("[{0}] ", main.servPass))
+        tempVal = Console.ReadLine()
+        If Not tempVal = "" Then main.servPass = tempVal
+        settings_Server_Password()
     End Sub
     Sub settings_Server_Channel()
         Console.Clear()

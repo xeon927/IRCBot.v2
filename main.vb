@@ -6,8 +6,8 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 
 Module main
-    Public version As String = "2.2.0"
-    Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass As String
+    Public version As String = "2.3.0"
+    Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
 
     Dim client As TcpClient
@@ -16,6 +16,7 @@ Module main
     Public CanRegex As Boolean = True
     Public QuietStart As Boolean = False
     Public nsUse As Boolean = False
+    Public servPassUse As Boolean = False
 
     Public gen As New Random
 
@@ -43,6 +44,16 @@ Module main
         Console.Write(String.Format("Port [{0}]: ", port.ToString()))
         ReadBuf = Console.ReadLine()
         If ReadBuf = "" Then port = port Else port = ReadBuf
+
+        'Get Server Password
+        Console.Write(String.Format("Password [{0}]: ", servPass))
+        ReadBuf = Console.ReadLine()
+        If ReadBuf = "" Then
+            If servPass <> "" Then servPassUse = True Else servPassUse = False
+        Else
+        servPassUse = True
+        servPass = ReadBuf
+        End If
 
         'Get Channel
         Console.Write(String.Format("Channel [{0}]: ", channel.ToString()))

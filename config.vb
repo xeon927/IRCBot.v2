@@ -7,6 +7,8 @@ Module config
                          New XElement("server",
                                       New XElement("host", "irc.example.net"),
                                       New XElement("port", "6667"),
+                                      New XElement("usePassword", "False"),
+                                      New XElement("password", ""),
                                       New XElement("channel", "#channel")),
                          New XElement("bot",
                                       New XElement("nickname", "IRCBot"),
@@ -31,6 +33,8 @@ Module config
                         New XElement("server",
                                      New XElement("host", host),
                                      New XElement("port", port),
+                                     New XElement("usePassword", servPassUse.ToString()),
+                                     New XElement("password", servPass),
                                      New XElement("channel", channel)),
                         New XElement("bot",
                                      New XElement("nickname", nickname),
@@ -60,6 +64,8 @@ Module config
         'Server Settings
         host = xmlDoc.<settings>.<server>.<host>.Value
         port = xmlDoc.<settings>.<server>.<port>.Value
+        If xmlDoc.<settings>.<server>.<usePassword>.Value = "True" Then servPassUse = True Else servPassUse = False
+        servPass = xmlDoc.<settings>.<server>.<password>.Value
         channel = xmlDoc.<settings>.<server>.<channel>.Value
         'Bot Settings
         nickname = xmlDoc.<settings>.<bot>.<nickname>.Value

@@ -1,6 +1,7 @@
 ﻿Module operations
     Sub login()
         If FirstRun Then
+            If servPassUse Then sendData(String.Format("PASS {0}", servPass))
             FirstRun = False
             Exit Sub
         End If
