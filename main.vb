@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 
 Module main
-    Public version As String = "2.4.0"
+    Public version As String = "2.4.1"
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
     Public logfilePath As String = Path.Combine(Directory.GetCurrentDirectory(), "IRCBot.log")
@@ -107,8 +107,8 @@ Module main
                     If charIn = vbCr Then
                         stream.Read(data, 0, 1)
                         If Not out.Substring(0, 4) = "PING" Then
-                            Console.WriteLine("<<< " + out)
-                            If loggingEnabled Then logging.append("<<< " + out)
+                            Console.WriteLine("<-- " + out)
+                            If loggingEnabled Then logging.append("<-- " + out)
                         End If
                         strings.Check(out)
                         Exit Do
@@ -135,8 +135,8 @@ Module main
         data = ASCII.GetBytes(message)
         stream.Write(data, 0, data.Length)
         If Not message.Substring(0, 4) = "PONG" Then
-            Console.Write(">>> " + message)
-            If loggingEnabled Then logging.append(">>> " + message.Replace(vbCrLf, ""))
+            Console.Write("--> " + message)
+            If loggingEnabled Then logging.append("--> " + message.Replace(vbCrLf, ""))
         End If
     End Sub
 End Module
