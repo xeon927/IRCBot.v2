@@ -9,7 +9,7 @@ Module modFantasy
             If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
-            If InStr(getMessage(message), "!ping") Then fandPing(getNickname(message), getChannel(message))
+            If InStr(getMessage(message), "!ping") Then fantPing(getNickname(message), getChannel(message))
         End If
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
@@ -128,6 +128,6 @@ Module modFantasy
         sendMessage(chan, String.Format("{0}: My host has been running for {1} days, {2}:{3}:{4}", nick, days, hours.PadLeft(2, "0"), minutes.PadLeft(2, "0"), seconds.PadLeft(2, "0")))
     End Sub
     Sub fantPing(nick As String, chan As String)
-        sendMessage(chan, String.Format("{0}: Pong! :D", nick)
+        sendMessage(chan, String.Format("{0}: Pong! :D", nick))
     End Sub
 End Module

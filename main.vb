@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 
 Module main
-    Public version As String = "2.4.3"
+    Public version As String = "2.4.4"
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
     Public logfilePath As String = Path.Combine(Directory.GetCurrentDirectory(), "IRCBot.log")
