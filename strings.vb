@@ -5,6 +5,7 @@
             checkDisconnect(message)
             ignore.check(message)
             If Not isIgnoring Then
+                If isChanMsg(message) Then tellHandle.Check(getNickname(message), getChannel(message))
                 modFantasy.Check(message)
                 modHighlight.Check(message)
                 modMisc.Check(message)

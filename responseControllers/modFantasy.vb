@@ -6,6 +6,7 @@ Module modFantasy
         If getMessage(message).Substring(0, 1) = "!" Then
             If Regex.IsMatch(getMessage(message), "\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
             If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
+            If Regex.IsMatch(getMessage(message), "!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
             If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
@@ -38,6 +39,13 @@ Module modFantasy
         Dim min As Integer = Regex.Match(message, "!dose\ (?<min>\d+)\ (?<max>\d+)", RegexOptions.IgnoreCase).Result("${min}")
         Dim max As Integer = Regex.Match(message, "!dose\ (?<min>\d+)\ (?<max>\d+)", RegexOptions.IgnoreCase).Result("${max}")
         sendMessage(chan, String.Format("{0}: You should take {1}mg!", nick, numberGen(min, max).ToString()))
+    End Sub
+    Sub fantTellAdd(message As String)
+        Dim fromNick As String = getNickname(message)
+        Dim fromChan As String = getChannel(message)
+        Dim destUser As String = Regex.Match(message, "!tell\ (?<destination>\w+)\ (?<text>.+)", RegexOptions.IgnoreCase).Result("${destination}")
+        Dim tellMessage As String = Regex.Match(message, "!tell\ (?<destination>\w+)\ (?<text>.+)", RegexOptions.IgnoreCase).Result("${text}")
+        tellHandle.Add(fromNick, fromChan, destUser, tellMessage)
     End Sub
     Sub fantEightBall(nick As String, chan As String)
         Select numberGen(1, 20)

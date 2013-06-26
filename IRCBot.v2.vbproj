@@ -111,6 +111,7 @@
     <Compile Include="setup.vb" />
     <Compile Include="startFlags.vb" />
     <Compile Include="strings.vb" />
+    <Compile Include="responseControllers\tellHandle.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="IRCBot.v2\Resources.resx">

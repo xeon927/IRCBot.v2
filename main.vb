@@ -4,34 +4,50 @@ Imports System.Net.Sockets
 Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
 Imports System.Xml
+'Imports System.Collections.Generic
 
 Module main
-    Public version As String = "2.4.4"
+    'Version
+    Public version As String = "2.5.0"
+
+    'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
     Public settingsFile As String = Path.Combine(Directory.GetCurrentDirectory(), "settings.xml")
     Public logfilePath As String = Path.Combine(Directory.GetCurrentDirectory(), "IRCBot.log")
 
+    'Tell list things
+    Public tellfilePath As String = Path.Combine(Directory.GetCurrentDirectory(), "tellWait.db")
+    Public waitingTells() As String
+    Public waitingTellsList As New List(Of String())
+
+    'Backend client stuff
     Dim client As TcpClient
     Dim ReadBuf As String = ""
 
+    'Miscellaneous checks
     Public CanRegex As Boolean = True
     Public QuietStart As Boolean = False
     Public nsUse As Boolean = False
     Public servPassUse As Boolean = False
     Public loggingEnabled As Boolean = True
 
+    'Random number generator
     Public gen As New Random
 
+    'Startup Checks
     Public loggedIn As Boolean = False
     Public firstPing As Boolean = False
     Public nickSent As Boolean = False
     Public userSent As Boolean = False
     Public FirstRun As Boolean = True
 
+    'Dicerolling Options
     Public diceMaxRolls, diceMaxSides As Integer
+
     Sub Main()
         startFlags.Check()
         config.Load()
+        tellHandle.Load()
         If Not QuietStart Then getParams()
         servConnect()
         runLoop()
@@ -53,8 +69,8 @@ Module main
         If ReadBuf = "" Then
             If servPass <> "" Then servPassUse = True Else servPassUse = False
         Else
-        servPassUse = True
-        servPass = ReadBuf
+            servPassUse = True
+            servPass = ReadBuf
         End If
 
         'Get Channel
