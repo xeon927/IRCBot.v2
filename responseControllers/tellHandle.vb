@@ -4,12 +4,15 @@ Module tellHandle
     Sub cmdLoad(nick As String, chan As String)
         If nick = owner Then
             tellHandle.Load()
-            sendMessage(chan, String.Format("{0}: Message database loaded from file"))
+            sendMessage(chan, String.Format("{0}: Message database loaded from file", nick))
         Else
             sendMessage(chan, String.Format("{0}: {1}", nick, ownerfail))
         End If
     End Sub
     Sub Load()
+        For i As Integer = 1 To waitingTellsList.Count
+            waitingTellsList.RemoveAt(i - 1)
+        Next
         If File.Exists(tellfilePath) Then
             waitingTells = File.ReadAllLines(tellfilePath)
         Else
@@ -25,7 +28,7 @@ Module tellHandle
         'Delete file and rewrite
         If File.Exists(tellfilePath) Then File.Delete(tellfilePath)
         For i As Integer = 1 To waitingTellsList.Count
-            File.WriteAllLines(tellfilePath, {String.Format("{0}|{1}|{2}", waitingTellsList(i - 1)(0), waitingTellsList(i - 1)(1), waitingTellsList(i - 1)(2))})
+            File.AppendAllLines(tellfilePath, {String.Format("{0}|{1}|{2}", waitingTellsList(i - 1)(0), waitingTellsList(i - 1)(1), waitingTellsList(i - 1)(2))})
         Next
     End Sub
     Sub Add(fromNick As String, fromChan As String, destUser As String, message As String)

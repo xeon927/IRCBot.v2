@@ -8,7 +8,7 @@ Imports System.Xml
 
 Module main
     'Version
-    Public version As String = "2.5.0"
+    Public version As String = "2.5.3"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
