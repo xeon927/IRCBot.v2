@@ -1,6 +1,14 @@
 ﻿Imports System.IO
 Imports System.Collections.Generic
 Module tellHandle
+    Sub cmdLoad(nick As String, chan As String)
+        If nick = owner Then
+            tellHandle.Load()
+            sendMessage(chan, String.Format("{0}: Message database loaded from file"))
+        Else
+            sendMessage(chan, String.Format("{0}: {1}", nick, ownerfail))
+        End If
+    End Sub
     Sub Load()
         If File.Exists(tellfilePath) Then
             waitingTells = File.ReadAllLines(tellfilePath)

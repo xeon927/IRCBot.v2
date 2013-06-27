@@ -31,6 +31,7 @@ Module modHighlight
                 Case "version" : hltVersion(fromNick, fromChan)
                 Case "identify" : hltNickServ(fromNick, fromChan)
                 Case "help" : hltHelp(fromNick, fromChan)
+                Case "loadtells" : tellHandle.cmdLoad(fromNick, fromChan)
             End Select
             Exit Sub
         End If
