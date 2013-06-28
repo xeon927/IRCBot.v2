@@ -39,8 +39,8 @@ Module tellHandle
     Sub Check(nickname As String, channel As String)
         If waitingTellsList.Count = 0 Then Exit Sub
         For i As Integer = 1 To waitingTellsList.Count
-            If nickname = waitingTellsList(i - 1)(0) Then
-                If channel = waitingTellsList(i - 1)(1) Then
+            If nickname.ToLower() = waitingTellsList(i - 1)(0).ToLower() Then
+                If channel.ToLower() = waitingTellsList(i - 1)(1).ToLower() Then
                     sendMessage(channel, String.Format("{0}: {1}", nickname, waitingTellsList(i - 1)(2)))
                     waitingTellsList.RemoveAt(i - 1)
                     tellHandle.Save()
