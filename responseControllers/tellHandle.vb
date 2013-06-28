@@ -29,8 +29,8 @@ Module tellHandle
     Sub Save()
         'Delete file and rewrite
         If File.Exists(tellfilePath) Then File.Delete(tellfilePath)
-        For i As Integer = 1 To waitingTellsList.Count
-            File.AppendAllLines(tellfilePath, {String.Format("{0}|{1}|{2}", waitingTellsList(i - 1)(0), waitingTellsList(i - 1)(1), waitingTellsList(i - 1)(2))})
+        For i As Integer = 0 To (waitingTellsList.Count - 1)
+            File.AppendAllLines(tellfilePath, {String.Format("{0}|{1}|{2}", waitingTellsList(i)(0), waitingTellsList(i)(1), waitingTellsList(i)(2))})
         Next
     End Sub
     Sub Add(fromNick As String, fromChan As String, destUser As String, message As String)
@@ -40,14 +40,15 @@ Module tellHandle
     End Sub
     Sub Check(nickname As String, channel As String)
         If waitingTellsList.Count = 0 Then Exit Sub
-        For i As Integer = 1 To waitingTellsList.Count
-            If waitingTellsList.Count = 0 Then Exit Sub
-            If nickname.ToLower() = waitingTellsList(i - 1)(0).ToLower() Then
-                If channel.ToLower() = waitingTellsList(i - 1)(1).ToLower() Then
-                    sendMessage(channel, String.Format("{0}: {1}", nickname, waitingTellsList(i - 1)(2)))
-                    waitingTellsList.RemoveAt(i - 1)
-                    tellHandle.Save()
-                    i = i - 1
+        For i As Integer = 0 To (waitingTellsList.Count - 1)
+            If i < waitingTellsList.Count Then
+                If nickname.ToLower() = waitingTellsList(i)(0).ToLower() Then
+                    If channel.ToLower() = waitingTellsList(i)(1).ToLower() Then
+                        sendMessage(channel, String.Format("{0}: {1}", nickname, waitingTellsList(i)(2)))
+                        waitingTellsList.RemoveAt(i)
+                        tellHandle.Save()
+                        i = i - 1
+                    End If
                 End If
             End If
         Next
