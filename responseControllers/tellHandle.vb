@@ -10,19 +10,21 @@ Module tellHandle
         End If
     End Sub
     Sub Load()
-        For i As Integer = 1 To waitingTellsList.Count
-            waitingTellsList.RemoveAt(i - 1)
-        Next
+        While waitingTellsList.Count > 0
+            For i As Integer = 1 To waitingTellsList.Count
+                waitingTellsList.RemoveAt(i - 1)
+            Next
+        End While
         If File.Exists(tellfilePath) Then
             waitingTells = File.ReadAllLines(tellfilePath)
+            For i As Integer = 1 To waitingTells.Length
+                Dim tempArray(2) As String
+                tempArray = waitingTells(i - 1).Split(New Char() {"|"}, 3)
+                waitingTellsList.Add({tempArray(0), tempArray(1), tempArray(2)})
+            Next
         Else
             waitingTells = {}
         End If
-        For i As Integer = 1 To waitingTells.Length
-            Dim tempArray(2) As String
-            tempArray = waitingTells(i - 1).Split(New Char() {"|"}, 3)
-            waitingTellsList.Add({tempArray(0), tempArray(1), tempArray(2)})
-        Next
     End Sub
     Sub Save()
         'Delete file and rewrite
@@ -39,11 +41,13 @@ Module tellHandle
     Sub Check(nickname As String, channel As String)
         If waitingTellsList.Count = 0 Then Exit Sub
         For i As Integer = 1 To waitingTellsList.Count
+            If waitingTellsList.Count = 0 Then Exit Sub
             If nickname.ToLower() = waitingTellsList(i - 1)(0).ToLower() Then
                 If channel.ToLower() = waitingTellsList(i - 1)(1).ToLower() Then
                     sendMessage(channel, String.Format("{0}: {1}", nickname, waitingTellsList(i - 1)(2)))
                     waitingTellsList.RemoveAt(i - 1)
                     tellHandle.Save()
+                    i = i - 1
                 End If
             End If
         Next
