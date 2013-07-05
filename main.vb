@@ -8,7 +8,7 @@ Imports System.Xml
 
 Module main
     'Version
-    Public version As String = "2.5.6"
+    Public version As String = "2.5.7"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
@@ -123,6 +123,8 @@ Module main
                     If charIn = vbCr Then
                         stream.Read(data, 0, 1)
                         If Not out.Substring(0, 4) = "PING" Then
+                            Console.ForegroundColor = ConsoleColor.White
+                            Console.BackgroundColor = ConsoleColor.Black
                             Console.WriteLine("<-- " + out)
                             If loggingEnabled Then logging.append("<-- " + out)
                         End If
@@ -151,6 +153,8 @@ Module main
         data = ASCII.GetBytes(message)
         stream.Write(data, 0, data.Length)
         If Not message.Substring(0, 4) = "PONG" Then
+            Console.ForegroundColor = ConsoleColor.White
+            Console.BackgroundColor = ConsoleColor.Black
             Console.Write("--> " + message)
             If loggingEnabled Then logging.append("--> " + message.Replace(vbCrLf, ""))
         End If
