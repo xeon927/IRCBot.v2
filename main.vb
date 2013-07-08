@@ -125,6 +125,10 @@ Module main
                         If Not out.Substring(0, 4) = "PING" Then
                             Console.ForegroundColor = ConsoleColor.White
                             Console.BackgroundColor = ConsoleColor.Black
+                            If InStr(out, nickname) Then
+                                If InStr(out, "PRIVMSG") Then Console.ForegroundColor = ConsoleColor.Yellow
+                                If InStr(out, "NOTICE") Then Console.ForegroundColor = ConsoleColor.Yellow
+                            End If
                             Console.WriteLine("<-- " + out)
                             If loggingEnabled Then logging.append("<-- " + out)
                         End If
