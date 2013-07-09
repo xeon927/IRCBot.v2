@@ -41,7 +41,9 @@
     End Sub
 
     Sub setNick(nick As String)
+        nick = removeSpaces(nick)
         sendData(String.Format("NICK {0}", nick))
+        nickname = nick
     End Sub
 
     Sub sendAction(chan As String, action As String)
