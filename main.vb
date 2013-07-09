@@ -4,11 +4,10 @@ Imports System.Net.Sockets
 Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
 Imports System.Xml
-'Imports System.Collections.Generic
 
 Module main
     'Version
-    Public version As String = "2.5.9"
+    Public version As String = "2.5.10"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String

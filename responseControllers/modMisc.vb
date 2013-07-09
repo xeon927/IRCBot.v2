@@ -2,6 +2,11 @@
     Sub Check(message As String)
         If InStr(getMessage(message), String.Format("Goodnight, {0}", nickname)) Then mscSleep(getNickname(message), getChannel(message))
         If InStr(getMessage(message), String.Format("hugs {0}", nickname)) Then mscHug(getNickname(message), getChannel(message), getMessage(message))
+        If InStr(getMessage(message), "<3") Then
+            If InStr(getMessage(message), nickname) Then
+                mscLove(getNickname(message), getChannel(message))
+            End If
+        End If
     End Sub
     Sub mscSleep(nick As String, chan As String)
         If nick = owner Then
@@ -26,6 +31,14 @@
                 Case 2 : sendAction(chan, String.Format("cuddles {0}", nick))
                 Case 3 : sendAction(chan, String.Format("hugs {0} in return", nick))
             End Select
+        End If
+    End Sub
+    Sub mscLove(nick As String, chan As String)
+        If nick = owner Then
+            sendAction(chan, String.Format("tackle-hugs {0}", nick))
+            sendMessage(chan, String.Format("{0}: I love you!", nick))
+        Else
+            sendMessage(chan, String.Format("{0}: <3", nick))
         End If
     End Sub
 End Module
