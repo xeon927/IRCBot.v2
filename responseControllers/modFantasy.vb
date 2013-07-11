@@ -7,6 +7,7 @@ Module modFantasy
             If Regex.IsMatch(getMessage(message), "\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
             If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
             If Regex.IsMatch(getMessage(message), "!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
+            If InStr(getMessage(message), "!hug") Then fantHug(message)
             If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
@@ -137,5 +138,13 @@ Module modFantasy
     End Sub
     Sub fantPing(nick As String, chan As String)
         sendMessage(chan, String.Format("{0}: Pong! :D", nick))
+    End Sub
+    Sub fantHug(message As String)
+        If Regex.IsMatch(getMessage(message), "!hug\ \w+", RegexOptions.IgnoreCase) Then
+            Dim destNick As String = Regex.Match(getMessage(message), "!hug\ (?<destNick>\w+)", RegexOptions.IgnoreCase).Result("${destNick}")
+            mscHug(destNick, getChannel(message))
+        Else
+            mscHug(getNickname(message), getChannel(message))
+        End If
     End Sub
 End Module
