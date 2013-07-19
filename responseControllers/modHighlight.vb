@@ -32,6 +32,7 @@ Module modHighlight
                 Case "identify" : hltNickServ(fromNick, fromChan)
                 Case "help" : hltHelp(fromNick, fromChan)
                 Case "loadtells" : tellHandle.cmdLoad(fromNick, fromChan)
+                Case "code" : hltCode(fromNick, fromChan)
             End Select
             Exit Sub
         End If
@@ -48,6 +49,9 @@ Module modHighlight
         Else
             sendMessage(chan, String.Format("{0}: {1}", nick, ownerfail))
         End If
+    End Sub
+    Sub hltCode(nick As String, chan As String)
+        sendMessage(chan, String.Format("{0}: Uh, my code? Um... All right. Here you go: http://www.github.com/xeon927/IRCBot.v2", nick))
     End Sub
 
     Sub hltGetVar(nick As String, chan As String, argument As String)
