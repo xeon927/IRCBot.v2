@@ -159,6 +159,6 @@ Module modFantasy
             sendMessage(chan, String.Format("{0}: Sorry, but you only gave me one option to pick from.", nick))
             Exit Sub
         End If
-        sendMessage(chan, String.Format("{0}: {1}", nick, chooseArray(numberGen(0, chooseArray.Length))))
+        sendMessage(chan, String.Format("{0}: {1}", nick, chooseArray(numberGen(0, chooseArray.Length - 1))))
     End Sub
 End Module
