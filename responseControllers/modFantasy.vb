@@ -12,6 +12,7 @@ Module modFantasy
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!ping") Then fantPing(getNickname(message), getChannel(message))
+            If InStr(getMessage(message), "!choose") Then fantChoose(getNickname(message), getChannel(message), getMessage(message))
         End If
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
@@ -146,5 +147,19 @@ Module modFantasy
         Else
             mscHug(getNickname(message), getChannel(message))
         End If
+    End Sub
+    Sub fantChoose(nick As String, chan As String, message As String)
+        If message.Length < 8 Then
+            sendMessage(chan, String.Format("{0}: Sorry, you didn't give me any options to choose from.", nick))
+            Exit Sub
+        End If
+        Dim chooseArray As String()
+        message = message.Remove(0, 8)
+        chooseArray = Regex.Split(message, ", ")
+        If chooseArray.Length = 1 Then
+            sendMessage(chan, String.Format("{0}: Sorry, but you only gave me one option to pick from.", nick))
+            Exit Sub
+        End If
+        sendMessage(chan, String.Format("{0}: {1}", nick, chooseArray(numberGen(0, chooseArray.Length))))
     End Sub
 End Module
