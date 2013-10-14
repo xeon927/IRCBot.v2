@@ -97,7 +97,6 @@ Module modFantasy
             Exit Sub
         Else
             Dim arg As String = Regex.Match(message, "!vote\ (?<arg>\w+)", RegexOptions.IgnoreCase).Result("${arg}")
-            Console.WriteLine(String.Format("---{0}---", arg))
             Select Case arg.ToLower()
                 Case "yay" : voting.vote(nick, chan, "yes")
                 Case "yeah" : voting.vote(nick, chan, "yes")
