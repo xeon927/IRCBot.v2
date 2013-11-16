@@ -22,7 +22,8 @@ Module config
                                       New XElement("ownerfail", "Sorry, only my owner can make me do that."),
                                       New XElement("alwaysQuiet", "False"),
                                       New XElement("loggingEnabled", "True"),
-                                      New XElement("logFilePath", "IRCBot.log")),
+                                      New XElement("logFilePath", "IRCBot.log"),
+                                      New XElement("wolframAppID", "Get an API Key at https://developer.wolframalpha.com/portal/myapps")),
                          New XElement("diceroll",
                                       New XElement("diceMaxRolls", "75"),
                                       New XElement("diceMaxSides", "500"))))
@@ -50,7 +51,8 @@ Module config
                                      New XElement("ownerfail", ownerfail),
                                      New XElement("alwaysQuiet", QuietStart.ToString()),
                                      New XElement("loggingEnabled", loggingEnabled.ToString()),
-                                     New XElement("logFilePath", logfilePath)),
+                                     New XElement("logFilePath", logfilePath),
+                                     New XElement("wolframAppID", waAppID)),
                         New XElement("diceroll",
                                      New XElement("diceMaxRolls", diceMaxRolls),
                                      New XElement("diceMaxSides", diceMaxSides))))
@@ -95,5 +97,6 @@ Module config
         If xmlDoc.<settings>.<misc>.<alwaysQuiet>.Value = "True" Then QuietStart = True
         If xmlDoc.<settings>.<misc>.<loggingEnabled>.Value = "True" Then loggingEnabled = True Else loggingEnabled = False
         logfilePath = xmlDoc.<settings>.<misc>.<logFilePath>.Value
+        waAppID = xmlDoc.<settings>.<misc>.<wolframAppID>.Value
     End Sub
 End Module

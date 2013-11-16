@@ -1,12 +1,14 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Diagnostics
 Imports System.IO
+Imports System.Web 'Needed for HTML-Escaping of WolframAlpha queries
 Module modFantasy
     Sub Check(message As String)
         If getMessage(message).Substring(0, 1) = "!" Then
             If Regex.IsMatch(getMessage(message), "\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
             If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
             If Regex.IsMatch(getMessage(message), "!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
+            If Regex.IsMatch(getMessage(message), "^!wa\ .+$", RegexOptions.IgnoreCase) Then fantAlpha(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!hug") Then fantHug(message)
             If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
@@ -160,5 +162,26 @@ Module modFantasy
             Exit Sub
         End If
         sendMessage(chan, String.Format("{0}: {1}", nick, chooseArray(numberGen(0, chooseArray.Length - 1))))
+    End Sub
+    Sub fantAlpha(nick As String, chan As String, message As String)
+        Try
+            Dim query As String = Regex.Match(message, "!wa\ (?<query>.+?)$", RegexOptions.IgnoreCase).Result("${query}")
+            Dim xDoc As XDocument = XDocument.Load(String.Format("http://api.wolframalpha.com/v2/query?format=plaintext&appid={0}&input={1}", waAppID, HttpUtility.HtmlEncode(query)))
+            If xDoc.Element("queryresult").Attribute("success").Value = "true" Then
+                For Each item As XElement In xDoc.Descendants("queryresult").Elements("pod")
+                    For Each podAttribute As XAttribute In item.Attributes
+                        If podAttribute.Name = "primary" And podAttribute.Value = "true" Then
+                            sendMessage(chan, String.Format("{0}: Result: {1}", nick, item.Element("subpod").Element("plaintext").Value))
+                        End If
+                    Next
+                Next
+            Else
+                sendMessage(chan, String.Format("{0}: No results for query: {1}", nick, query))
+            End If
+        Catch ex As Exception
+            sendMessage(chan, String.Format("{0}: Sorry, but something went wrong. Please check back later.", nick))
+            sendNotice(owner, "Something went wrong with WolframAlpha. Please check botlogs as soon as possible.")
+            Console.WriteLine(ex.ToString())
+        End Try
     End Sub
 End Module

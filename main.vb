@@ -43,6 +43,9 @@ Module main
     'Dicerolling Options
     Public diceMaxRolls, diceMaxSides As Integer
 
+    'WolframAlpha API Key
+    Public waAppID As String
+
     Sub Main()
         startFlags.Check()
         config.Load()
