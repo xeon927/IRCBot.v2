@@ -165,8 +165,6 @@ Module modFantasy
     Sub fantAlpha(nick As String, chan As String, message As String)
         Try
             Dim query As String = Regex.Match(message, "!wa\ (?<query>.+?)$", RegexOptions.IgnoreCase).Result("${query}")
-            Console.WriteLine(query)
-            Console.WriteLine(Uri.EscapeDataString(query))
             Dim xDoc As XDocument = XDocument.Load(String.Format("http://api.wolframalpha.com/v2/query?format=plaintext&appid={0}&input={1}", waAppID, Uri.EscapeDataString(query)))
             If xDoc.Element("queryresult").Attribute("success").Value = "true" Then
                 For Each item As XElement In xDoc.Descendants("queryresult").Elements("pod")
