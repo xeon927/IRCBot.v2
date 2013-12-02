@@ -1,5 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Diagnostics
+Imports System.Net
 Imports System.IO
 Module modFantasy
     Sub Check(message As String)
@@ -14,6 +15,7 @@ Module modFantasy
             If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!ping") Then fantPing(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!choose") Then fantChoose(getNickname(message), getChannel(message), getMessage(message))
+            If InStr(getMessage(message), "!isup") Then fantDown(getNickname(message), getChannel(message), getMessage(message))
         End If
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
@@ -51,7 +53,7 @@ Module modFantasy
         tellHandle.Add(fromNick, fromChan, destUser, tellMessage)
     End Sub
     Sub fantEightBall(nick As String, chan As String)
-        Select numberGen(1, 20)
+        Select Case numberGen(1, 20)
             Case 1 : sendMessage(chan, String.Format("{0}: It is certain.", nick))
             Case 2 : sendMessage(chan, String.Format("{0}: It is decidedly so.", nick))
             Case 3 : sendMessage(chan, String.Format("{0}: Without a doubt.", nick))
@@ -182,5 +184,29 @@ Module modFantasy
             sendNotice(owner, "Something went wrong with WolframAlpha. Please check botlogs as soon as possible.")
             Console.WriteLine(ex.ToString())
         End Try
+    End Sub
+    Sub fantDown(nick As String, chan As String, message As String)
+        If Regex.IsMatch(message, "^!isup\ (?<host>.+)$") Then
+            If Regex.IsMatch(message, "\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}") Then
+                Dim pingDest As String = Regex.Match(message, "(?<IP>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})").Result("${IP}")
+                If IPAddress.TryParse(pingDest, System.Net.IPAddress.Any) Then
+                    Dim pingSender As New NetworkInformation.Ping
+                    Select Case pingSender.Send(pingDest).Status
+                        Case NetworkInformation.IPStatus.Success : sendMessage(chan, String.Format("{0}: {1} - Host appears to be up", nick, pingDest))
+                        Case Else : sendMessage(chan, String.Format("{0}: {1} - Host appears to be down", nick, pingDest))
+                    End Select
+                End If
+            Else
+                Dim URL As String = Regex.Match(message, "^!isup\ (?<host>.+)$").Result("${host}")
+                If Not URL.StartsWith("http://") And Not URL.StartsWith("https://") Then URL = "http://" + URL
+                Try
+                    Dim req As WebResponse = WebRequest.Create(URL).GetResponse()
+                    req.Close()
+                    sendMessage(chan, String.Format("{0}: {1} - Host appears to be up", nick, URL))
+                Catch ex As Exception
+                    sendMessage(chan, String.Format("{0}: {1} - Host appears to be down", nick, URL))
+                End Try
+            End If
+        End If
     End Sub
 End Module

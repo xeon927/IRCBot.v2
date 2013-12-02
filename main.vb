@@ -7,7 +7,7 @@ Imports System.Xml
 
 Module main
     'Version
-    Public version As String = "2.7.2"
+    Public version As String = "2.9.0"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
@@ -146,7 +146,8 @@ Module main
 #Else
                 Console.WriteLine("Something went wrong.")
 #End If
-
+                logging.append(ex.ToString)
+                End 'Stop execution because if socket disconnects, it will not reconnect.
             End Try
         Loop
 

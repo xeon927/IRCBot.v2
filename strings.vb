@@ -15,14 +15,12 @@
         End Try
     End Sub
     Sub checkPing(message)
-        If Len(message) > 6 Then
-            If message.Substring(0, 6) = "PING :" Then
-                Dim pongMsg(1) As String
-                pongMsg = message.Split(":")
-                pongMsg(1) = pongMsg(1).TrimEnd(vbCr, vbLf)
-                main.sendData("PONG :" + pongMsg(1))
-                If Not firstPing Then firstPing = True
-            End If
+        If Len(message) > 6 And message.Substring(0, 6) = "PING :" Then
+            Dim pongMsg(1) As String
+            pongMsg = message.Split(":")
+            pongMsg(1) = pongMsg(1).TrimEnd(vbCr, vbLf)
+            main.sendData("PONG :" + pongMsg(1))
+            If Not firstPing Then firstPing = True
         End If
     End Sub
     Sub checkDisconnect(message)
@@ -34,6 +32,9 @@
                 nickSent = False
                 userSent = False
                 FirstRun = False
+
+                System.Threading.Thread.Sleep(15000) 'Wait 15s before reconnecting
+
                 servConnect()
                 runLoop()
             End If
