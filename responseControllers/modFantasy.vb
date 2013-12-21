@@ -167,22 +167,34 @@ Module modFantasy
     Sub fantAlpha(nick As String, chan As String, message As String)
         Try
             Dim query As String = Regex.Match(message, "!wa\ (?<query>.+?)$", RegexOptions.IgnoreCase).Result("${query}")
+            Dim results As New List(Of String)
             Dim xDoc As XDocument = XDocument.Load(String.Format("http://api.wolframalpha.com/v2/query?format=plaintext&appid={0}&input={1}", waAppID, Uri.EscapeDataString(query)))
             If xDoc.Element("queryresult").Attribute("success").Value = "true" Then
-                For Each item As XElement In xDoc.Descendants("queryresult").Elements("pod")
-                    For Each podAttribute As XAttribute In item.Attributes
-                        If podAttribute.Name = "primary" And podAttribute.Value = "true" Then
-                            sendMessage(chan, String.Format("{0}: Result: {1}", nick, item.Element("subpod").Element("plaintext").Value))
+                For Each pod As XElement In xDoc.Descendants("queryresult").Elements("pod")
+                    If pod.Attribute("id").Value = "Input" Then Continue For
+                    For Each subpod As XElement In pod.Elements("subpod")
+                        If subpod.Attribute("title").Value = "Result" Then
+                            results.Add(String.Format("{0}: {1}", pod.Attribute("title").Value, subpod.Element("plaintext").Value))
                         End If
                     Next
                 Next
+                If results.Count > 0 Then
+                    For Each result In results
+                        sendMessage(chan, String.Format("{0}: {1}", nick, result.Replace(vbLf, " ")))
+                    Next
+                Else
+                    sendMessage(chan, String.Format("{0}: No results for query: {1}", nick, query))
+                End If
             Else
                 sendMessage(chan, String.Format("{0}: No results for query: {1}", nick, query))
             End If
         Catch ex As Exception
             sendMessage(chan, String.Format("{0}: Sorry, but something went wrong. Please check back later.", nick))
             sendNotice(owner, "Something went wrong with WolframAlpha. Please check botlogs as soon as possible.")
+            logging.append(ex.ToString())
+#If DEBUG Then
             Console.WriteLine(ex.ToString())
+#End If
         End Try
     End Sub
     Sub fantDown(nick As String, chan As String, message As String)
