@@ -1,9 +1,11 @@
 ﻿Module modMisc
     Sub Check(message As String)
         If InStr(getMessage(message), String.Format("Goodnight, {0}", nickname)) Then mscSleep(getNickname(message), getChannel(message))
-        If InStr(getMessage(message), "hugs") And InStr(getMessage(message), nickname) Then mscHug(getNickname(message), getChannel(message))
-        If InStr(getMessage(message), "cuddles") And InStr(getMessage(message), nickname) Then mscHug(getNickname(message), getChannel(message))
-        If InStr(getMessage(message), "snuggles") And InStr(getMessage(message), nickname) Then mscHug(getNickname(message), getChannel(message))
+        If InStr(getMessage(message), "hugs") Or _
+            InStr(getMessage(message), "cuddles") Or _
+            InStr(getMessage(message), "snuggles") Then
+            If InStr(getMessage(message), nickname) Then mscHug(getNickname(message), getChannel(message))
+        End If
         If InStr(getMessage(message), "<3") Then
             If InStr(getMessage(message), nickname) Then
                 mscLove(getNickname(message), getChannel(message))
