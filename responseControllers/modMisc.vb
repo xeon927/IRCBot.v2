@@ -1,6 +1,6 @@
 ﻿Module modMisc
     Sub Check(message As String)
-        If InStr(getMessage(message), String.Format("Goodnight, {0}", nickname)) Then mscSleep(getNickname(message), getChannel(message))
+        If InStr(getMessage(message).ToLower(), String.Format("goodnight, {0}", nickname.ToLower())) Then mscSleep(getNickname(message), getChannel(message))
         If InStr(getMessage(message), "hugs") Or _
             InStr(getMessage(message), "cuddles") Or _
             InStr(getMessage(message), "snuggles") Then

@@ -173,7 +173,7 @@ Module modFantasy
                 For Each pod As XElement In xDoc.Descendants("queryresult").Elements("pod")
                     If pod.Attribute("id").Value = "Input" Then Continue For
                     For Each subpod As XElement In pod.Elements("subpod")
-                        If subpod.Attribute("title").Value = "Result" Or pod.Attribute("title") = "Result" Then
+                        If InStr(subpod.Attribute("title").Value, "Result") Or InStr(pod.Attribute("title").Value, "Result") Then
                             results.Add(String.Format("{0}: {1}", pod.Attribute("title").Value, subpod.Element("plaintext").Value))
                         End If
                     Next

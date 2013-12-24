@@ -1,19 +1,19 @@
 ﻿Imports System.Text.RegularExpressions
 Module mSplit
-    Function getNickname(message As String)
+    Function getNickname(message As String) As String
         Return msgRegex("nickname", message)
     End Function
-    Function getUsername(message As String)
+    Function getUsername(message As String) As String
         Return msgRegex("username", message)
     End Function
-    Function getHostname(message As String)
+    Function getHostname(message As String) As String
         Return msgRegex("hostname", message)
     End Function
-    Function getChannel(message As String)
+    Function getChannel(message As String) As String
         Dim chan As String = msgRegex("channel", message)
         If chan.Substring(0, 1) = "#" Then Return chan Else Return getNickname(message)
     End Function
-    Function getMessage(message As String)
+    Function getMessage(message As String) As String
         Return msgRegex("message", message)
     End Function
     Function msgRegex(output As String, input As String)
