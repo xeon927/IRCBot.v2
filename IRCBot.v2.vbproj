@@ -103,6 +103,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="miscItems.vb" />
+    <Compile Include="responseControllers\LastFM.vb" />
     <Compile Include="responseControllers\modFantasy.vb" />
     <Compile Include="responseControllers\modHighlight.vb" />
     <Compile Include="responseControllers\modMisc.vb" />

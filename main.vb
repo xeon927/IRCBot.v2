@@ -7,7 +7,7 @@ Imports System.Xml
 
 Module main
     'Version
-    Public version As String = "2.10.0"
+    Public version As String = "2.11.0"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
@@ -46,9 +46,14 @@ Module main
     'WolframAlpha API Key
     Public waAppID As String
 
+    'LastFM Items
+    Public LFMUsers As New Dictionary(Of String, String)
+    Public LFMPath As String = Path.Combine(Directory.GetCurrentDirectory(), "lfm.db")
+
     Sub Main()
         startFlags.Check()
         config.Load()
+        LastFM.Load()
         tellHandle.Load()
         If Not QuietStart Then getParams()
         servConnect()

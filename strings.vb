@@ -6,6 +6,7 @@
             ignore.check(message)
             If Not isIgnoring Then
                 If isChanMsg(message) Then tellHandle.Check(getNickname(message), getChannel(message))
+                LastFM.Check(getNickname(message), getChannel(message), getMessage(message))
                 modFantasy.Check(message)
                 modHighlight.Check(message)
                 modMisc.Check(message)
