@@ -10,11 +10,7 @@ Module tellHandle
         End If
     End Sub
     Sub Load()
-        While waitingTellsList.Count > 0
-            For i As Integer = 1 To waitingTellsList.Count
-                waitingTellsList.RemoveAt(i - 1)
-            Next
-        End While
+        waitingTellsList.Clear()
         If File.Exists(tellfilePath) Then
             waitingTells = File.ReadAllLines(tellfilePath)
             For i As Integer = 1 To waitingTells.Length

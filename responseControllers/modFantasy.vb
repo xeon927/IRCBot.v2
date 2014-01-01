@@ -5,12 +5,12 @@ Imports System.IO
 Module modFantasy
     Sub Check(message As String)
         If getMessage(message).Substring(0, 1) = "!" Then
-            If Regex.IsMatch(getMessage(message), "\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
-            If Regex.IsMatch(getMessage(message), "!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
-            If Regex.IsMatch(getMessage(message), "!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
+            If Regex.IsMatch(getMessage(message), "!\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
+            If Regex.IsMatch(getMessage(message), "^!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
+            If Regex.IsMatch(getMessage(message), "^!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
             If Regex.IsMatch(getMessage(message), "^!wa\ .+$", RegexOptions.IgnoreCase) Then fantAlpha(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!hug") Then fantHug(message)
-            If InStr(getMessage(message), "!8b") Or InStr(getMessage(message), "!8ball") Then fantEightBall(getNickname(message), getChannel(message))
+            If InStr(getMessage(message), "!8b") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!uptime") Then fantUptime(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!ping") Then fantPing(getNickname(message), getChannel(message))
@@ -168,15 +168,15 @@ Module modFantasy
         Try
             Dim query As String = Regex.Match(message, "!wa\ (?<query>.+?)$", RegexOptions.IgnoreCase).Result("${query}")
             Dim results As New List(Of String)
+            Dim tempResult As New List(Of String)
             Dim xDoc As XDocument = XDocument.Load(String.Format("http://api.wolframalpha.com/v2/query?format=plaintext&appid={0}&input={1}", waAppID, Uri.EscapeDataString(query)))
             If xDoc.Element("queryresult").Attribute("success").Value = "true" Then
-                For Each pod As XElement In xDoc.Descendants("queryresult").Elements("pod")
-                    If pod.Attribute("id").Value = "Input" Then Continue For
-                    For Each subpod As XElement In pod.Elements("subpod")
-                        If InStr(subpod.Attribute("title").Value, "Result") Or InStr(pod.Attribute("title").Value, "Result") Then
-                            results.Add(String.Format("{0}: {1}", pod.Attribute("title").Value, subpod.Element("plaintext").Value))
-                        End If
+                For Each pod As XElement In xDoc.<queryresult>.<pod>
+                    For Each subpod As XElement In pod.<subpod>
+                        If InStr(subpod.@title, "Result") Or InStr(pod.@title, "Result") Or pod.@primary = "true" Then tempResult.Add(subpod.<plaintext>.Value)
                     Next
+                    If tempResult.Count > 0 Then results.Add(String.Format("{0}: {1}", pod.@title, String.Join(" || ", tempResult)))
+                    tempResult.Clear()
                 Next
                 If results.Count > 0 Then
                     For Each result In results
