@@ -12,7 +12,7 @@ Module LastFM
         If File.Exists(LFMPath) Then
             Dim LFMLoadArray() As String = File.ReadAllLines(LFMPath)
             For Each line As String In LFMLoadArray
-                Dim splitArray() As String = line.Split(New Char() {"|"}, 2)
+                Dim splitArray() As String = line.Split(New Char() {vbTab}, 2)
                 LFMUsers.Add(splitArray(0), splitArray(1))
             Next
         End If
@@ -20,7 +20,7 @@ Module LastFM
     Sub Save()
         File.Delete(LFMPath)
         For Each user In LFMUsers
-            File.AppendAllLines(LFMPath, {String.Format("{0}|{1}", user.Key, user.Value)})
+            File.AppendAllLines(LFMPath, {String.Format("{0}{1}{2}", user.Key, vbTab, user.Value)})
         Next
     End Sub
     Sub Check(nick As String, chan As String, message As String)
