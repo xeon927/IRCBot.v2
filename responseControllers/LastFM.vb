@@ -97,7 +97,7 @@ Module LastFM
     End Sub
 
     Sub chkUser(nick As String, chan As String, target As String)
-        Dim associatedAccounts As List(Of String)
+        Dim associatedAccounts As New List(Of String)
         For Each user In LFMUsers
             If user.Value = target Then associatedAccounts.Add(user.Key)
         Next
