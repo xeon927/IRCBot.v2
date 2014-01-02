@@ -48,7 +48,7 @@ Module LastFM
 
         'Similar to above - but Owner-Only force options
         If Regex.IsMatch(message, "^!npaddforce\ (?<nick>.+?)\ (?<user>.+?)$") Then addUserForce(Regex.Match(message, "^!npaddforce\ (?<nick>.+?)\ (?<user>.+?)$").Result("${nick}"), chan, Regex.Match(message, "^!npaddforce\ (?<nick>.+?)\ (?<user>.+?)$").Result("${user}"), nick)
-        If Regex.IsMatch(message, "^!npdelforce\ (?<nick>.+?)$") Then delUserForce(Regex.Match(message, "^!npaddforce\ (?<nick>.+?)$").Result("${nick}"), chan, nick)
+        If Regex.IsMatch(message, "^!npdelforce\ (?<nick>.+?)$") Then delUserForce(Regex.Match(message, "^!npdelforce\ (?<nick>.+?)$").Result("${nick}"), chan, nick)
     End Sub
 
     Sub addUser(nick As String, chan As String, user As String)
@@ -87,9 +87,9 @@ Module LastFM
             If LFMUsers.ContainsKey(nick) Then
                 LFMUsers.Remove(nick)
                 Save()
-                sendMessage(chan, String.Format("{0}: Username deleted from database", nick))
+                sendMessage(chan, String.Format("{0}: Username deleted from database", origin))
             Else
-                sendMessage(chan, String.Format("{0}: Nickname not associated to account", nick))
+                sendMessage(chan, String.Format("{0}: Nickname not associated to account", origin))
             End If
         Else
             sendMessage(chan, String.Format("{0}: {1}", nick, ownerfail))
@@ -110,7 +110,7 @@ Module LastFM
     Sub getNPData(nick As String, chan As String, target As String)
         If LFMUsers.ContainsKey(target) Then
             Try
-                Dim xDoc As XDocument = XDocument.Load(String.Format("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&limit=1&user={0}&api_key={1}", target, "56283dc1dd302d0400bdbcd3e03ddddd"))
+                Dim xDoc As XDocument = XDocument.Load(String.Format("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&limit=1&user={0}&api_key={1}", Uri.EscapeDataString(LFMUsers(target)), "56283dc1dd302d0400bdbcd3e03ddddd"))
                 If xDoc.<lfm>.@status = "ok" Then
                     If xDoc.<lfm>.<recenttracks>.<track>.First.HasAttributes And xDoc.<lfm>.<recenttracks>.<track>.First.@nowplaying = "true" Then
                         sendMessage(chan, String.Format("{0} is listening to ""{1} - {2}""", target, xDoc.<lfm>.<recenttracks>.<track>.First.<name>.Value, xDoc.<lfm>.<recenttracks>.<track>.First.<artist>.Value))
@@ -130,7 +130,7 @@ Module LastFM
             If nick = target Then
                 sendMessage(chan, String.Format("{0}: Your nickname is not associated with a Last.FM account. Use ""!npadd <username>"" (where ""username"" is your Last.FM username) to associate your nickname.", nick))
             Else
-                sendMessage(chan, String.Format("{0}: {1} is not associated with a Last.FM account. Use ""!npadd <username>"" (where ""username"" is your Last.FM username) to associate your nickname.", nick, target))
+                sendMessage(chan, String.Format("{0}: {1} is not associated with a Last.FM account.", nick, target))
             End If
         End If
     End Sub
