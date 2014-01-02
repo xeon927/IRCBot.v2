@@ -26,29 +26,29 @@ Module LastFM
     Sub Check(nick As String, chan As String, message As String)
         'Regex Patterns:
         '!np              - ^!np$
-        '!np <IRCUser>    - ^!np\ (?<nick>\.+?)$
-        '!npadd <LFMUser> - ^!npadd\ (?<user>\.+?)$
+        '!np <IRCUser>    - ^!np\ (?<nick>.+?)$
+        '!npadd <LFMUser> - ^!npadd\ (?<user>.+?)$
         '!npdel           - ^!npdel$
-        '!npchk <LFMUser> - ^!npchk\ (?<user>\.+?)$
+        '!npchk <LFMUser> - ^!npchk\ (?<user>.+?)$
 
         'Get Now Playing Data for sender
         If Regex.IsMatch(message, "^!np$") Then getNPData(nick, chan, nick)
 
         'Get Now Playing Data for another user (registered with bot)
-        If Regex.IsMatch(message, "^!np\ (?<nick>\.+?)$") Then getNPData(nick, chan, Regex.Match(message, "^!np\ (?<nick>\.+?)$").Result("${nick}"))
+        If Regex.IsMatch(message, "^!np\ (?<nick>.+?)$") Then getNPData(nick, chan, Regex.Match(message, "^!np\ (?<nick>.+?)$").Result("${nick}"))
 
         'Allow users to associate a Last.FM account with their IRC nickname
-        If Regex.IsMatch(message, "^!npadd\ (?<user>\.+?)$") Then addUser(nick, chan, Regex.Match(message, "^!npadd\ (?<user>\.+?)$").Result("${user}"))
+        If Regex.IsMatch(message, "^!npadd\ (?<user>.+?)$") Then addUser(nick, chan, Regex.Match(message, "^!npadd\ (?<user>.+?)$").Result("${user}"))
 
         'Allow users to disassociate a Last.FM account with their IRC nickname
         If Regex.IsMatch(message, "^!npdel$") Then delUser(nick, chan)
 
         'Allow users to check what nicknames are associated with a given Last.FM username
-        If Regex.IsMatch(message, "^!npchk\ (?<user>\.+?)$") Then chkUser(nick, chan, Regex.Match(message, "^!npchk\ (?<user>\.+?)$").Result("${user}"))
+        If Regex.IsMatch(message, "^!npchk\ (?<user>.+?)$") Then chkUser(nick, chan, Regex.Match(message, "^!npchk\ (?<user>.+?)$").Result("${user}"))
 
         'Similar to above - but Owner-Only force options
-        If Regex.IsMatch(message, "^!npaddforce\ (?<nick>\.+?)\ (?<user>\.+?)$") Then addUserForce(Regex.Match(message, "^!npaddforce\ (?<nick>\.+?)\ (?<user>\.+?)$").Result("${nick}"), chan, Regex.Match(message, "^!npaddforce\ (?<nick>\.+?)\ (?<user>\.+?)$").Result("${user}"), nick)
-        If Regex.IsMatch(message, "^!npdelforce\ (?<nick>\.+?)$") Then delUserForce(Regex.Match(message, "^!npaddforce\ (?<nick>\.+?)$").Result("${nick}"), chan, nick)
+        If Regex.IsMatch(message, "^!npaddforce\ (?<nick>.+?)\ (?<user>.+?)$") Then addUserForce(Regex.Match(message, "^!npaddforce\ (?<nick>.+?)\ (?<user>.+?)$").Result("${nick}"), chan, Regex.Match(message, "^!npaddforce\ (?<nick>.+?)\ (?<user>.+?)$").Result("${user}"), nick)
+        If Regex.IsMatch(message, "^!npdelforce\ (?<nick>.+?)$") Then delUserForce(Regex.Match(message, "^!npaddforce\ (?<nick>.+?)$").Result("${nick}"), chan, nick)
     End Sub
 
     Sub addUser(nick As String, chan As String, user As String)
