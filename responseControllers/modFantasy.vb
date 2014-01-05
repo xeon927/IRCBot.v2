@@ -38,7 +38,15 @@ Module modFantasy
         For i As Integer = 1 To rolls
             resultArray(i - 1) = numberGen(1, max)
         Next
-        sendMessage(chan, String.Format("Rolling {0} dice with {1} sides... Results: [{2}]", rolls, max, String.Join(", ", resultArray)))
+        If rolls = 1 Then
+            sendMessage(chan, String.Format("Rolling {0} dice with {1} sides... Results: [{2}]", rolls, max, String.Join(", ", resultArray)))
+        Else
+            Dim rollAvg As Double
+            For Each result As Integer In resultArray
+                rollAvg = rollAvg + result
+            Next
+            sendMessage(chan, String.Format("Rolling {0} dice with {1} sides... Results: [{2}] - Average [{3}]", rolls, max, String.Join(", ", resultArray), rollAvg / resultArray.Count))
+        End If
     End Sub
     Sub fantGetDose(nick As String, chan As String, message As String)
         Dim min As Integer = Regex.Match(message, "!dose\ (?<min>\d+)\ (?<max>\d+)", RegexOptions.IgnoreCase).Result("${min}")
