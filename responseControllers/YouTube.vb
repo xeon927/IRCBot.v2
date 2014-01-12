@@ -37,8 +37,6 @@ Module YouTube
         Return LenStr.Substring(2)
     End Function
     Function YTGetDateTime(DTStr As String)
-        'Dim DT As DateTime = DateTime.Parse(DTStr)
-        'Return String.Format("{0}/{1}/{2}", DT.Day, DT.Mont, DT.Year)
         Return DateTime.Parse(DTStr).ToLongDateString()
     End Function
 End Module
