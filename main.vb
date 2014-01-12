@@ -7,7 +7,7 @@ Imports System.Xml
 
 Module main
     'Version
-    Public version As String = "2.11.6"
+    Public version As String = "2.12.0"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
@@ -49,6 +49,9 @@ Module main
     'LastFM Items
     Public LFMUsers As New Dictionary(Of String, String)
     Public LFMPath As String = Path.Combine(Directory.GetCurrentDirectory(), "lfm.db")
+
+    'YouTube-specific
+    Public YTAPIKey As String
 
     Sub Main()
         startFlags.Check()

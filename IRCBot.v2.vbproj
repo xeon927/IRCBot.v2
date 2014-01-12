@@ -110,6 +110,7 @@
     <Compile Include="operations.vb" />
     <Compile Include="mSplit.vb" />
     <Compile Include="responseControllers\voting.vb" />
+    <Compile Include="responseControllers\YouTube.vb" />
     <Compile Include="setup.vb" />
     <Compile Include="startFlags.vb" />
     <Compile Include="strings.vb" />
