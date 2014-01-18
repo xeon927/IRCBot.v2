@@ -28,13 +28,19 @@ Module YouTube
             If Regex.IsMatch(currentLine, """duration"": ""(?<VideoLength>.+)"",$") Then vidLength = Regex.Match(currentLine, """duration"": ""(?<VideoLength>.+)"",$").Result("${VideoLength}")
         End While
         If resultCount = "1" Then
-            sendMessage(chan, String.Format("{0}: {1} - length: {2} - Uploaded by {3} on {4}", nick, vidTitle, YTGetLength(vidLength), vidCreator, YTGetDateTime(vidUploadDate)))
+            sendMessage(chan, String.Format("{0}: {1} - length: {2} - Uploaded by {3} on {4}", nick, Uri.UnescapeDataString(vidTitle), YTGetLength(vidLength.Substring(2)), Uri.UnescapeDataString(vidCreator), YTGetDateTime(vidUploadDate)))
         Else
             sendMessage(chan, String.Format("{0}: No results for video ID: {1}", nick, vidID))
         End If
     End Sub
-    Function YTGetLength(LenStr As String)
-        Return LenStr.Substring(2)
+    Function YTGetLength(LenStr As String) As String
+        Dim pattern As String = "((?<hours>\d+)H)?((?<minutes>\d+)M)?((?<seconds>\d+)S)?"
+        Dim r As Match = Regex.Match(LenStr, pattern)
+        Dim vidTime As New List(Of String)
+        If Not r.Result("${hours}") = "" Then If r.Result("${hours}") = "1" Then vidTime.Add(String.Format("{0} hour", r.Result("${hours}"))) Else vidTime.Add(String.Format("{0} hours", r.Result("${hours}")))
+        If Not r.Result("${minutes}") = "" Then If r.Result("${minutes}") = "1" Then vidTime.Add(String.Format("{0} minute", r.Result("${minutes}"))) Else vidTime.Add(String.Format("{0} minutes", r.Result("${minutes}")))
+        If Not r.Result("${seconds}") = "" Then If r.Result("${seconds}") = "1" Then vidTime.Add(String.Format("{0} second", r.Result("${seconds}"))) Else vidTime.Add(String.Format("{0} seconds", r.Result("${seconds}")))
+        Return String.Join(", ", vidTime)
     End Function
     Function YTGetDateTime(DTStr As String)
         Return DateTime.Parse(DTStr).ToLongDateString()
