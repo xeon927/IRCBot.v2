@@ -52,20 +52,20 @@ Module LastFM
     End Sub
 
     Sub addUser(nick As String, chan As String, user As String)
-        If LFMUsers.ContainsKey(nick) Then
+        If LFMUsers.ContainsKey(nick.ToLower()) Then
             sendMessage(chan, String.Format("{0}: Cannot add username. IRC nickname already associated with Last.FM account {1}. To delete association, use ""!npdel""", nick, LFMUsers(nick)))
         Else
-            LFMUsers.Add(nick, user)
+            LFMUsers.Add(nick.ToLower(), user)
             Save()
             sendMessage(chan, String.Format("{0}: Username added to database", nick))
         End If
     End Sub
     Sub addUserForce(nick As String, chan As String, user As String, origin As String)
         If origin = owner Then
-            If LFMUsers.ContainsKey(nick) Then
+            If LFMUsers.ContainsKey(nick.ToLower()) Then
                 sendMessage(chan, String.Format("{0}: Nickname already associated to account {1}", origin))
             Else
-                LFMUsers.Add(nick, user)
+                LFMUsers.Add(nick.ToLower(), user)
                 Save()
                 sendMessage(chan, String.Format("{0}: Username added to database", origin))
             End If
@@ -74,8 +74,8 @@ Module LastFM
         End If
     End Sub
     Sub delUser(nick As String, chan As String)
-        If LFMUsers.ContainsKey(nick) Then
-            LFMUsers.Remove(nick)
+        If LFMUsers.ContainsKey(nick.ToLower()) Then
+            LFMUsers.Remove(nick.ToLower())
             Save()
             sendMessage(chan, String.Format("{0}: Username deleted from database", nick))
         Else
@@ -84,8 +84,8 @@ Module LastFM
     End Sub
     Sub delUserForce(nick As String, chan As String, origin As String)
         If origin = owner Then
-            If LFMUsers.ContainsKey(nick) Then
-                LFMUsers.Remove(nick)
+            If LFMUsers.ContainsKey(nick.ToLower()) Then
+                LFMUsers.Remove(nick.ToLower())
                 Save()
                 sendMessage(chan, String.Format("{0}: Username deleted from database", origin))
             Else
@@ -99,7 +99,7 @@ Module LastFM
     Sub chkUser(nick As String, chan As String, target As String)
         Dim associatedAccounts As New List(Of String)
         For Each user In LFMUsers
-            If user.Value = target Then associatedAccounts.Add(user.Key)
+            If user.Value = target.ToLower() Then associatedAccounts.Add(user.Key)
         Next
         If associatedAccounts.Count = 0 Then
             sendMessage(chan, String.Format("{0}: User {1} is not associated with any IRC nicknames", nick, target))
@@ -108,7 +108,7 @@ Module LastFM
         End If
     End Sub
     Sub getNPData(nick As String, chan As String, target As String)
-        If LFMUsers.ContainsKey(target) Then
+        If LFMUsers.ContainsKey(target.ToLower()) Then
             Try
                 Dim xDoc As XDocument = XDocument.Load(String.Format("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&limit=1&user={0}&api_key={1}", Uri.EscapeDataString(LFMUsers(target)), "56283dc1dd302d0400bdbcd3e03ddddd"))
                 If xDoc.<lfm>.@status = "ok" Then
