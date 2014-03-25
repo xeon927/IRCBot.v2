@@ -5,10 +5,6 @@ Imports System.IO
 Module modFantasy
     Sub Check(message As String)
         If getMessage(message).Substring(0, 1) = "!" Then
-            If Regex.IsMatch(getMessage(message), "!\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
-            If Regex.IsMatch(getMessage(message), "^!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
-            If Regex.IsMatch(getMessage(message), "^!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
-            If Regex.IsMatch(getMessage(message), "^!wa\ .+$", RegexOptions.IgnoreCase) Then fantAlpha(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!hug") Then fantHug(message)
             If InStr(getMessage(message), "!8b") Then fantEightBall(getNickname(message), getChannel(message))
             If InStr(getMessage(message), "!vote") Then fantVote(getNickname(message), getChannel(message), getMessage(message))
@@ -17,6 +13,11 @@ Module modFantasy
             If InStr(getMessage(message), "!choose") Then fantChoose(getNickname(message), getChannel(message), getMessage(message))
             If InStr(getMessage(message), "!isup") Then fantDown(getNickname(message), getChannel(message), getMessage(message))
         End If
+        'Regex can handle start of string on its own - don't need IF block above (for regex-matched)
+        If Regex.IsMatch(getMessage(message), "!\d+d\d+", RegexOptions.IgnoreCase) Then fantDiceRoll(getNickname(message), getChannel(message), getMessage(message))
+        If Regex.IsMatch(getMessage(message), "^!dose\ \d+\ \d+", RegexOptions.IgnoreCase) Then fantGetDose(getNickname(message), getChannel(message), getMessage(message))
+        If Regex.IsMatch(getMessage(message), "^!tell\ \w+\ .+", RegexOptions.IgnoreCase) Then fantTellAdd(message)
+        If Regex.IsMatch(getMessage(message), "^!wa\ .+$", RegexOptions.IgnoreCase) Then fantAlpha(getNickname(message), getChannel(message), getMessage(message))
     End Sub
     Sub fantDiceRoll(nick As String, chan As String, message As String)
         Dim pattern As String = "(?<rolls>\d+)d(?<max>\d+)"
