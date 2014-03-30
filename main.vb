@@ -1,9 +1,9 @@
 ﻿Imports System
 Imports System.IO
+Imports System.Xml
 Imports System.Net.Sockets
 Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
-Imports System.Xml
 
 Module main
     'Version
