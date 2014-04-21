@@ -110,7 +110,7 @@ Module LastFM
     Sub getNPData(nick As String, chan As String, target As String)
         If LFMUsers.ContainsKey(target.ToLower()) Then
             Try
-                Dim xDoc As XDocument = XDocument.Load(String.Format("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&limit=1&user={0}&api_key={1}", Uri.EscapeDataString(LFMUsers(target)), "56283dc1dd302d0400bdbcd3e03ddddd"))
+                Dim xDoc As XDocument = XDocument.Load(String.Format("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&limit=1&user={0}&api_key={1}", Uri.EscapeDataString(LFMUsers(target.ToLower())), "56283dc1dd302d0400bdbcd3e03ddddd"))
                 If xDoc.<lfm>.@status = "ok" Then
                     If xDoc.<lfm>.<recenttracks>.<track>.First.HasAttributes And xDoc.<lfm>.<recenttracks>.<track>.First.@nowplaying = "true" Then
                         sendMessage(chan, String.Format("{0} is listening to ""{1} - {2}""", target, xDoc.<lfm>.<recenttracks>.<track>.First.<name>.Value, xDoc.<lfm>.<recenttracks>.<track>.First.<artist>.Value))
