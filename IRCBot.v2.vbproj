@@ -85,6 +85,7 @@
     <Compile Include="config.vb" />
     <Compile Include="help.vb" />
     <Compile Include="logging.vb" />
+    <Compile Include="responseControllers\deviantART.vb" />
     <Compile Include="responseControllers\ignore.vb" />
     <Compile Include="main.vb" />
     <Compile Include="IRCBot.v2\AssemblyInfo.vb" />
