@@ -53,6 +53,12 @@ Module main
     'YouTube-specific
     Public YTAPIKey As String
 
+    'Twitter-specific
+    Public TwitterAPIKey As String
+    Public TwitterAPISecret As String 'Also: Consumer Secret
+    Public TwitterAccessToken As String
+    Public TwitterAccessTokenSecret As String 'Also: OAuth Token Secret
+
     Sub Main()
         startFlags.Check()
         config.Load()
@@ -62,7 +68,7 @@ Module main
         servConnect()
         runLoop()
     End Sub
-    Sub getParams()
+    Sub getParams() 'TODO: Decommission
         'Get Server Address
         Console.Write(String.Format("Server [{0}]: ", host.ToString()))
         ReadBuf = Console.ReadLine()

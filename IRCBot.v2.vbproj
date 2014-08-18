@@ -110,6 +110,8 @@
     <Compile Include="responseControllers\modMisc.vb" />
     <Compile Include="operations.vb" />
     <Compile Include="mSplit.vb" />
+    <Compile Include="responseControllers\Twitter.vb" />
+    <Compile Include="responseControllers\Twitterold.vb" />
     <Compile Include="responseControllers\voting.vb" />
     <Compile Include="responseControllers\YouTube.vb" />
     <Compile Include="setup.vb" />

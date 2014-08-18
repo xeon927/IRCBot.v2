@@ -24,7 +24,11 @@ Module config
                                       New XElement("loggingEnabled", "True"),
                                       New XElement("logFilePath", "IRCBot.log"),
                                       New XElement("wolframAppID", "Get an API Key at https://developer.wolframalpha.com/portal/myapps"),
-                                      New XElement("youtubeAPIKey", "Get an API Key at https://cloud.google.com/console")),
+                                      New XElement("youtubeAPIKey", "Get an API Key at https://cloud.google.com/console"),
+                                      New XElement("twitterAPIKey", "Get an API Key at https://apps.twitter.com/"),
+                                      New XElement("twitterAPISecret", "Get an API Key at https://apps.twitter.com/"),
+                                      New XElement("twitterAccessToken", "Get your access token at https://apps.twitter.com/"),
+                                      New XElement("twitterAccessTokenSecret", "Get your access token at https://apps.twitter.com/")),
                          New XElement("diceroll",
                                       New XElement("diceMaxRolls", "75"),
                                       New XElement("diceMaxSides", "500"))))
@@ -54,7 +58,11 @@ Module config
                                      New XElement("loggingEnabled", loggingEnabled.ToString()),
                                      New XElement("logFilePath", logfilePath),
                                      New XElement("wolframAppID", waAppID),
-                                     New XElement("youtubeAPIKey", YTAPIKey)),
+                                     New XElement("youtubeAPIKey", YTAPIKey),
+                                     New XElement("twitterAPIKey", TwitterAPIKey),
+                                     New XElement("twitterAPISecret", TwitterAPISecret),
+                                     New XElement("twitterAccessToken", TwitterAccessToken),
+                                     New XElement("twitterAccessTokenSecret", TwitterAccessTokenSecret)),
                         New XElement("diceroll",
                                      New XElement("diceMaxRolls", diceMaxRolls),
                                      New XElement("diceMaxSides", diceMaxSides))))
@@ -101,5 +109,9 @@ Module config
         logfilePath = xmlDoc.<settings>.<misc>.<logFilePath>.Value
         waAppID = xmlDoc.<settings>.<misc>.<wolframAppID>.Value
         YTAPIKey = xmlDoc.<settings>.<misc>.<youtubeAPIKey>.Value
+        TwitterAPIKey = xmlDoc.<settings>.<misc>.<twitterAPIKey>.Value
+        TwitterAPISecret = xmlDoc.<settings>.<misc>.<twitterAPISecret>.Value
+        TwitterAccessToken = xmlDoc.<settings>.<misc>.<twitterAccessToken>.Value
+        TwitterAccessTokenSecret = xmlDoc.<settings>.<misc>.<twitterAccessTokenSecret>.Value
     End Sub
 End Module
