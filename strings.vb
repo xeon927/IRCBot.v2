@@ -9,7 +9,7 @@
                 LastFM.Check(getNickname(message), getChannel(message), getMessage(message))
                 YouTube.Check(getNickname(message), getChannel(message), getMessage(message))
                 'deviantART.Check(getNickname(message), getChannel(message), getMessage(message))
-                Twitter.Check(getNickname(message), getChannel(message), getMessage(message))
+                'Twitter.Check(getNickname(message), getChannel(message), getMessage(message))
                 modFantasy.Check(message)
                 modHighlight.Check(message)
                 modMisc.Check(message)

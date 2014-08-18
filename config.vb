@@ -109,9 +109,9 @@ Module config
         logfilePath = xmlDoc.<settings>.<misc>.<logFilePath>.Value
         waAppID = xmlDoc.<settings>.<misc>.<wolframAppID>.Value
         YTAPIKey = xmlDoc.<settings>.<misc>.<youtubeAPIKey>.Value
-        TwitterAPIKey = xmlDoc.<settings>.<misc>.<twitterAPIKey>.Value
-        TwitterAPISecret = xmlDoc.<settings>.<misc>.<twitterAPISecret>.Value
-        TwitterAccessToken = xmlDoc.<settings>.<misc>.<twitterAccessToken>.Value
-        TwitterAccessTokenSecret = xmlDoc.<settings>.<misc>.<twitterAccessTokenSecret>.Value
+        'TwitterAPIKey = xmlDoc.<settings>.<misc>.<twitterAPIKey>.Value
+        'TwitterAPISecret = xmlDoc.<settings>.<misc>.<twitterAPISecret>.Value
+        'TwitterAccessToken = xmlDoc.<settings>.<misc>.<twitterAccessToken>.Value
+        'TwitterAccessTokenSecret = xmlDoc.<settings>.<misc>.<twitterAccessTokenSecret>.Value
     End Sub
 End Module

@@ -7,7 +7,7 @@ Imports System.Text.RegularExpressions
 
 Module main
     'Version
-    Public version As String = "2.13.1"
+    Public version As String = "2.13.2"
 
     'Settings and Logging
     Public host, port, channel, nickname, username, realname, owner, ownerfail, nsPass, servPass As String
