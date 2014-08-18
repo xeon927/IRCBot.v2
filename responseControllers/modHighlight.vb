@@ -1,8 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
 Module modHighlight
     Sub Check(message As String)
-        Dim regexPattern As String = String.Format("{0}: (?<instruction>\w+)", nickname)
-        Dim regexArgsPattern As String = String.Format("{0}: (?<instruction>\w+) (?<argument>[A-Za-z0-9#]+)", nickname)
+        Dim regexPattern As String = String.Format("{0}: (?<instruction>\S+)", nickname)
+        Dim regexArgsPattern As String = String.Format("{0}: (?<instruction>\S+) (?<argument>[A-Za-z0-9#]+)", nickname)
         'With Arguments
         If Regex.IsMatch(getMessage(message), regexArgsPattern, RegexOptions.IgnoreCase) Then
             Dim fromNick, fromChan, inst, arg As String
